@@ -1,0 +1,52 @@
+<mvc:View
+    controllerName="uppersap.com.listreport.controller.Detail"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:f="sap.f"
+    xmlns:layout="sap.ui.layout"
+    xmlns:form="sap.ui.layout.form">
+
+    <Page
+        id="detailPage"
+        title="Detalle del Producto"
+        showNavButton="true"
+        navButtonPress=".onNavBack">
+        
+        <content>
+            <ObjectHeader
+                title="{datos>Name}"
+                number="{
+                    parts:[{path:'datos>Price'}],
+                    type: 'sap.ui.model.type.Currency',
+                    formatOptions: {currencyCode: false}
+                }"
+                numberUnit="USD"
+                intro="{datos>Category}"
+                icon="sap-icon://product">
+                <attributes>
+                    <ObjectAttribute title="ID Producto" text="{datos>ProductId}" />
+                    <ObjectAttribute title="Proveedor" text="{datos>SupplierName}" />
+                </attributes>
+                <statuses>
+                    <ObjectStatus
+                        text="{datos>StockText}"
+                        state="{datos>StockState}"
+                        icon="{datos>StockIcon}" />
+                </statuses>
+            </ObjectHeader>
+
+            <form:SimpleForm title="Información Adicional" editable="false" layout="ResponsiveGridLayout">
+                <form:content>
+                    <Label text="Categoría" />
+                    <Text text="{datos>Category}" />
+                    
+                    <Label text="Stock Actual" />
+                    <Text text="{datos>Stock}" />
+
+                    <Label text="Nombre Proveedor" />
+                    <Text text="{datos>SupplierName}" />
+                </form:content>
+            </form:SimpleForm>
+        </content>
+    </Page>
+</mvc:View>

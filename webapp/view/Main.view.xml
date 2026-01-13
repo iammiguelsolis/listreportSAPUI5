@@ -7,6 +7,7 @@
     xmlns:f="sap.f"
     xmlns:fb="sap.ui.comp.filterbar"
     xmlns:svm="sap.ui.comp.smartvariants">
+
     <f:DynamicPage headerExpanded="{/headerExpanded}">
         <f:title>
             <f:DynamicPageTitle>
@@ -21,12 +22,13 @@
                 </f:snappedContent>
             </f:DynamicPageTitle>
         </f:title>
+
         <f:header>
             <f:DynamicPageHeader>
                 <f:content>
                     <fb:FilterBar id="filterbar" persistencyKey="myPersKey" useToolbar="false" search=".onSearch" filterChange=".onFilterChange" afterVariantLoad=".onAfterVariantLoad">
                         <fb:filterGroupItems>
-                            <fb:FilterGroupItem name="Name" label="Name" groupName="Group1" visibleInFilterBar="true">
+                            <fb:FilterGroupItem name="Name" label="Producto" groupName="Group1" visibleInFilterBar="true">
                                 <fb:control>
                                     <MultiComboBox
                                         name="Name"
@@ -40,21 +42,8 @@
                                     </MultiComboBox>
                                 </fb:control>
                             </fb:FilterGroupItem>
-                            <fb:FilterGroupItem name="Category" label="Category" groupName="Group1" visibleInFilterBar="true">
-                                <fb:control>
-                                    <MultiComboBox
-                                        name="Category"
-                                        selectionChange=".onSelectionChange"
-                                        items="{
-                                            path: 'datos>/ProductCategories',
-                                            templateShareable: true
-                                        }"
-                                    >
-                                        <core:Item key="{datos>key}" text="{datos>name}"/>
-                                    </MultiComboBox>
-                                </fb:control>
-                            </fb:FilterGroupItem>
-                            <fb:FilterGroupItem name="SupplierName" label="SupplierName" groupName="Group1" visibleInFilterBar="true">
+
+                            <fb:FilterGroupItem name="SupplierName" label="Proveedor" groupName="Group1" visibleInFilterBar="true">
                                 <fb:control>
                                     <MultiComboBox
                                         name="SupplierName"
@@ -68,11 +57,13 @@
                                     </MultiComboBox>
                                 </fb:control>
                             </fb:FilterGroupItem>
+
                         </fb:filterGroupItems>
                     </fb:FilterBar>
                 </f:content>
             </f:DynamicPageHeader>
         </f:header>
+
         <f:content>
             <Table
                 id="table"
@@ -80,25 +71,49 @@
                 items="{
                     path: 'datos>/ProductCollection'
                 }"
+                growing="true"
+                growingThreshold="20"
             >
                 <columns>
-                    <Column minScreenWidth="Tablet" demandPopin="true">
-                        <Text text="Name"/>
+                    <Column width="12em">
+                        <Text text="Producto"/>
                     </Column>
                     <Column minScreenWidth="Tablet" demandPopin="true">
-                        <Text text="Category"/>
+                        <Text text="Categoría / Proveedor"/>
                     </Column>
-                    <Column minScreenWidth="Tablet" demandPopin="true">
-                        <Text text="SupplierName"/>
+                    <Column hAlign="End" width="8em">
+                        <Text text="Precio"/>
+                    </Column>
+                    <Column hAlign="Center" width="10em">
+                        <Text text="Estado Stock"/>
                     </Column>
                 </columns>
 
                 <items>
-                    <ColumnListItem vAlign="Middle">
+                    <ColumnListItem vAlign="Middle" type="Navigation" press=".onPress">
                         <cells>
-                            <ObjectIdentifier title="{datos>Name}" text="{datos>ProductId}" />
-                            <Text text="{datos>Category}" />
-                            <Text text="{datos>SupplierName}" />
+                            <ObjectIdentifier title="{datos>Name}" text="ID: {datos>ProductId}" />
+                            
+                            <VBox>
+                                <Text text="{datos>Category}" class="sapUiTinyMarginBottom"/>
+                                <Label text="{datos>SupplierName}" design="Bold"/>
+                            </VBox>
+
+                            <ObjectNumber
+                                number="{
+                                    parts:[{path:'datos>Price'}],
+                                    type: 'sap.ui.model.type.Currency',
+                                    formatOptions: {currencyCode: false}
+                                }"
+                                unit="USD"
+                                state="Success" 
+                            />
+
+                            <ObjectStatus
+                                text="{datos>StockText}"
+                                state="{datos>StockState}"
+                                icon="{datos>StockIcon}"
+                            />
                         </cells>
                     </ColumnListItem>
                 </items>
