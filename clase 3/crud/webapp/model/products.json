@@ -1,0 +1,38 @@
+[
+    {
+        "ProductID": 1,
+        "ProductName": "Laptop Gaming X1",
+        "SupplierName": "TechSolutions",
+        "Category": "Computers",
+        "UnitPrice": 1200.50,
+        "UnitsInStock": 15,
+        "Discontinued": false
+    },
+    {
+        "ProductID": 2,
+        "ProductName": "Mouse Inalámbrico",
+        "SupplierName": "Peripherals Inc.",
+        "Category": "Accessories",
+        "UnitPrice": 25.00,
+        "UnitsInStock": 50,
+        "Discontinued": false
+    },
+    {
+        "ProductID": 3,
+        "ProductName": "Monitor 4K Ultra",
+        "SupplierName": "Visionary",
+        "Category": "Electronics",
+        "UnitPrice": 350.00,
+        "UnitsInStock": 0,
+        "Discontinued": true
+    },
+    {
+        "ProductID": 4,
+        "ProductName": "Teclado Mecánico RGB",
+        "SupplierName": "GamerGear",
+        "Category": "Accessories",
+        "UnitPrice": 85.99,
+        "UnitsInStock": 10,
+        "Discontinued": false
+    }
+]

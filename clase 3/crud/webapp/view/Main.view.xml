@@ -1,0 +1,81 @@
+<mvc:View controllerName="uppersap.com.crud.controller.Main"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m">
+    <Page id="page" title="{i18n>title}">
+        <content>
+            <Table
+                id="productsTable"
+                items="{products>/}"
+                mode="SingleSelectMaster"
+                itemPress=".onPress"
+                growing="true"
+                growingThreshold="10">
+                <headerToolbar>
+                    <OverflowToolbar>
+                        <Title 
+                            text='Productos ({=${products>/}.length})' level='H2'/>
+                        <ToolbarSpacer/>
+                        <Button 
+                            icon='sap-icon://add'
+                            text='{i18n>btnCreate}'
+                            press='.onCreate'
+                            type='Emphasized'
+                        ></Button>
+                    </OverflowToolbar>
+                </headerToolbar>
+                <columns>
+                    <Column>
+                        <Text text="{i18n>columnName}" />
+                    </Column>
+                    
+                    <Column minScreenWidth="Tablet" demandPopin="true">
+                        <Text text="{i18n>columnCategory}" />
+                    </Column>
+                    
+                    <Column minScreenWidth="Tablet" demandPopin="true">
+                        <Text text="{i18n>columnSupplier}" />
+                    </Column>
+                    
+                    <Column hAlign="End">
+                        <Text text="{i18n>columnPrice}" />
+                    </Column>
+                    
+                    <Column hAlign="End" minScreenWidth="Tablet" demandPopin="true">
+                        <Text text="{i18n>columnStock}" />
+                    </Column>
+                    
+                    <Column hAlign="Center">
+                        <Text text="{i18n>columnDiscontinued}" />
+                    </Column>
+
+                    <Column minScreenWidth="Tablet" demandPopin="true"><Text text="Acciones" /></Column>
+
+                </columns>
+                <items>
+                    <ColumnListItem type="Navigation">
+                        <cells>
+                            <ObjectIdentifier title="{products>ProductName}" text="ID: {products>ProductID}"/>
+                            
+                            <Text text="{products>Category}"/>
+                            
+                            <Text text="{products>SupplierName}"/>
+                            
+                            <ObjectNumber number="{products>UnitPrice}" unit="USD" />
+                                
+                            <ObjectNumber number="{products>UnitsInStock}" />
+
+                            <ObjectStatus 
+                                state="{= ${products>Discontinued} ? 'Error' : 'Success' }"
+                                icon="{= ${products>Discontinued} ? 'sap-icon://decline' : 'sap-icon://accept' }"
+                                text="{= ${products>Discontinued} ? ${i18n>statusDiscontinued} : ${i18n>statusAvailable} }" />
+                            <HBox>
+                                <Button icon="sap-icon://edit" press=".onEdit" type="Transparent" />
+                                <Button icon="sap-icon://delete" press=".onDelete" type="Reject" />
+                            </HBox>
+                        </cells>
+                    </ColumnListItem>
+                </items>
+            </Table>
+        </content>
+    </Page>
+</mvc:View>

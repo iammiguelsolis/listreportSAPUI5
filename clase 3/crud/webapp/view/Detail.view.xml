@@ -1,0 +1,58 @@
+<mvc:View
+    controllerName="uppersap.com.crud.controller.Detail"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m">
+
+    <Page 
+        title="{i18n>appTitle}"
+        showNavButton="true"
+        navButtonPress=".onNavBack">
+        
+        <content>
+            <ObjectHeader
+                responsive="true"
+                fullScreenOptimized="true"
+                icon="sap-icon://product"
+                intro="{products>Category}"
+                title="{products>ProductName}"
+                number="{
+                    parts:[{path:'products>UnitPrice'},{path:'products>CurrencyCode'}],
+                    type: 'sap.ui.model.type.Currency'
+                }"
+                numberUnit="USD">
+                
+                <attributes>
+                    <ObjectAttribute title="{i18n>columnId}" text="{products>ProductID}" />
+                    <ObjectAttribute title="{i18n>columnSupplier}" text="{products>SupplierName}" />
+                </attributes>
+
+                <statuses>
+                    <ObjectStatus
+                        title="{i18n>columnDiscontinued}"
+                        state="{= ${products>Discontinued} ? 'Error' : 'Success' }"
+                        text="{= ${products>Discontinued} ? ${i18n>statusDiscontinued} : ${i18n>statusAvailable} }" 
+                    />
+                </statuses>
+
+            </ObjectHeader>
+
+        </content>
+        <footer>
+            <OverflowToolbar>
+                <ToolbarSpacer />
+                
+                <Button 
+                    text="{i18n>btnEdit}" 
+                    type="Emphasized" 
+                    icon="sap-icon://edit"
+                    press=".onEdit"/>
+                
+                <Button 
+                    text="{i18n>btnDelete}" 
+                    type="Reject" 
+                    icon="sap-icon://delete"
+                    press=".onDelete"/>
+            </OverflowToolbar>
+        </footer>
+    </Page>
+</mvc:View>
