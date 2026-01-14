@@ -12,9 +12,14 @@ sap.ui.define([
 
         onInit: function () {
             console.log("Hola, estás en el Main");
+            this._sMode = "";
         },
 
         onCreate: function () {
+            console.log('entrando a creando...')
+            
+            this._sMode = "Create";
+
             let oNewProductData = {
                 ProductID: Math.floor(Math.random() * 1000),
                 ProductName: "",
@@ -45,31 +50,67 @@ sap.ui.define([
             });
         },
 
-        onCancelCreate: function () {
+        onEdit: function(oEvent) {
+            
+            this._sMode = "Edit";
+
+            let oItem = oEvent.getSource();
+            let oContext = oItem.getBindingContext("products");
+            
+            this._sPath = oContext.getPath(); 
+
+            let oModel = this.getView().getModel("products");
+            let oCurrentProduct = oModel.getProperty(this._sPath);
+            let oClone = JSON.parse(JSON.stringify(oCurrentProduct));
+
+            let oModelEdit = new JSONModel(oClone);
+            this.getView().setModel(oModelEdit, "newEntry");
+
+            if (!this.pDialog) {
+                this.pDialog = Fragment.load({
+                    id: this.getView().getId(),
+                    name: "uppersap.com.crud.view.CreateDialog",
+                    controller: this
+                }).then(function (oDialog) {
+                    this.getView().addDependent(oDialog);
+                    return oDialog;
+                }.bind(this));
+            }
             this.pDialog.then(function (oDialog) {
-                oDialog.close();
+                oDialog.open();
             });
         },
 
-
         onSaveCreate: function () {
-            let oNewEntryModel = this.getView().getModel("newEntry");
-            let oNewData = oNewEntryModel.getData();
+            console.log('entrando a save general...')
 
-            if (!oNewData.ProductName) {
+            let oNewEntryModel = this.getView().getModel("newEntry");
+            let oModifiedData = oNewEntryModel.getData();
+            let oModelMain = this.getView().getModel("products");
+
+            if (!oModifiedData.ProductName) {
                 MessageToast.show("Por favor, escribe un nombre de producto");
                 return;
             }
 
-            let oProductsModel = this.getView().getModel("products");
-            let oData = oProductsModel.getData();
+            if (this._sMode === "Create") {
+                let oData = oModelMain.getData();
+                oData.push(oModifiedData);
+                oModelMain.refresh();
+                MessageToast.show("Producto creado exitosamente");
 
-            oData.push(oNewData);
-
-            oProductsModel.refresh();
+            } else if (this._sMode === "Edit") {
+                oModelMain.setProperty(this._sPath, oModifiedData);
+                MessageToast.show("Producto actualizado");
+            }
 
             this.onCancelCreate();
-            MessageToast.show("Producto creado exitosamente");
+        },
+
+        onCancelCreate: function () {
+            this.pDialog.then(function (oDialog) {
+                oDialog.close();
+            });
         },
 
         onPress: function (oEvent) {
@@ -100,55 +141,6 @@ sap.ui.define([
             oModel.refresh(); 
             
             MessageToast.show("Producto eliminado");
-        },
-
-        onEdit: function(oEvent) {
-            let oItem = oEvent.getSource();
-            let oContext = oItem.getBindingContext("products");
-            
-            this._sPath = oContext.getPath(); 
-
-            let oModel = this.getView().getModel("products");
-            let oCurrentProduct = oModel.getProperty(this._sPath);
-            let oClone = JSON.parse(JSON.stringify(oCurrentProduct));
-
-            let oModelEdit = new JSONModel(oClone);
-            this.getView().setModel(oModelEdit, "newEntry");
-
-            if (!this.pDialog) {
-                this.pDialog = Fragment.load({
-                    id: this.getView().getId(),
-                    name: "uppersap.com.crud.view.CreateDialog",
-                    controller: this
-                }).then(function (oDialog) {
-                    this.getView().addDependent(oDialog);
-                    return oDialog;
-                }.bind(this));
-            }
-            this.pDialog.then(function (oDialog) {
-                oDialog.open();
-            });
-        },
-
-        onSaveCreate: function () {
-            let oModelEdit = this.getView().getModel("newEntry");
-            let oModifiedData = oModelEdit.getData();
-
-            let oModelMain = this.getView().getModel("products");
-            
-            oModelMain.setProperty(this._sPath, oModifiedData);
-
-            this.pDialog.then(function(oDialog) {
-                oDialog.close();
-            });
-            
-            MessageToast.show("Actualizado");
-        },
-
-        onCancelCreate: function () {
-            this.pDialog.then(function(oDialog) {
-                oDialog.close();
-            });
         }
 
     });

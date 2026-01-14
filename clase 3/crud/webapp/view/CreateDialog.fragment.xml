@@ -1,48 +1,48 @@
-<core:FragmentDefinition
-    xmlns="sap.m"
-    xmlns:core="sap.ui.core"
-    xmlns:form="sap.ui.layout.form">
-    
-    <Dialog title="{i18n>btnCreate}" contentWidth="400px">
-        <content>
-            <form:SimpleForm
-                editable="true"
-                layout="ResponsiveGridLayout"
-                labelSpanXL="4" labelSpanL="4" labelSpanM="4" labelSpanS="12"
-                adjustLabelSpan="false"
-                emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0"
-                columnsXL="1" columnsL="1" columnsM="1"
-                singleContainerFullSize="false">
-                <form:content>
-                    <Label text="{i18n>columnId}" required="true"/>
-                    <Input value="{newEntry>/ProductID}" type="Number"/>
+    <core:FragmentDefinition
+        xmlns="sap.m"
+        xmlns:core="sap.ui.core"
+        xmlns:form="sap.ui.layout.form">
+        
+        <Dialog title="{i18n>btnCreate}" contentWidth="400px">
+            <content>
+                <form:SimpleForm
+                    editable="true"
+                    layout="ResponsiveGridLayout"
+                    labelSpanXL="4" labelSpanL="4" labelSpanM="4" labelSpanS="12"
+                    adjustLabelSpan="false"
+                    emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0"
+                    columnsXL="1" columnsL="1" columnsM="1"
+                    singleContainerFullSize="false">
+                    <form:content>
+                        <Label text="{i18n>columnId}" required="true"/>
+                        <Input value="{newEntry>/ProductID}" type="Number"/>
 
-                    <Label text="{i18n>columnName}" required="true"/>
-                    <Input value="{newEntry>/ProductName}"/>
+                        <Label text="{i18n>columnName}" required="true"/>
+                        <Input value="{newEntry>/ProductName}"/>
 
-                    <Label text="{i18n>columnCategory}"/>
-                    <Input value="{newEntry>/Category}"/>
+                        <Label text="{i18n>columnCategory}"/>
+                        <Input value="{newEntry>/Category}"/>
 
-                    <Label text="{i18n>columnSupplier}"/>
-                    <Input value="{newEntry>/SupplierName}"/>
+                        <Label text="{i18n>columnSupplier}"/>
+                        <Input value="{newEntry>/SupplierName}"/>
 
-                    <Label text="{i18n>columnPrice}"/>
-                    <Input value="{newEntry>/UnitPrice}" type="Number" description="USD"/>
+                        <Label text="{i18n>columnPrice}"/>
+                        <Input value="{newEntry>/UnitPrice}" type="Number" description="USD"/>
 
-                    <Label text="{i18n>columnStock}"/>
-                    <StepInput value="{newEntry>/UnitsInStock}" min="0" max="999"/>
-                    
-                    <Label text="{i18n>columnDiscontinued}"/>
-                    <Switch state="{newEntry>/Discontinued}" customTextOn="Yes" customTextOff="No"/>
+                        <Label text="{i18n>columnStock}"/>
+                        <StepInput value="{newEntry>/UnitsInStock}" min="0" max="999"/>
+                        
+                        <Label text="{i18n>columnDiscontinued}"/>
+                        <Switch state="{newEntry>/Discontinued}" customTextOn="Yes" customTextOff="No"/>
 
-                </form:content>
-            </form:SimpleForm>
-        </content>
-        <beginButton>
-            <Button text="{i18n>btnSave}" type="Emphasized" press=".onSaveCreate"/>
-        </beginButton>
-        <endButton>
-            <Button text="{i18n>btnCancel}" press=".onCancelCreate"/>
-        </endButton>
-    </Dialog>
-</core:FragmentDefinition>
+                    </form:content>
+                </form:SimpleForm>
+            </content>
+            <beginButton>
+                <Button text="{i18n>btnSave}" type="Emphasized" press=".onSaveCreate"/>
+            </beginButton>
+            <endButton>
+                <Button text="{i18n>btnCancel}" press=".onCancelCreate"/>
+            </endButton>
+        </Dialog>
+    </core:FragmentDefinition>
