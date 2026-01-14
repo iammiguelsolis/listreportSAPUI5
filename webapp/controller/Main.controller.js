@@ -12,20 +12,21 @@ sap.ui.define([
     return Controller.extend("uppersap.com.listreport.controller.Main", {
 
         onInit: function() {
+            
             this.oSmartVariantManagement = this.getView().byId("svm");
             this.oExpandedLabel = this.getView().byId("expandedLabel");
             this.oSnappedLabel = this.getView().byId("snappedLabel");
             this.oFilterBar = this.getView().byId("filterbar");
             this.oTable = this.getView().byId("table");
-
+            
             this.applyData = this.applyData.bind(this);
             this.fetchData = this.fetchData.bind(this);
             this.getFiltersWithValues = this.getFiltersWithValues.bind(this);
-
+            
             this.oFilterBar.registerFetchData(this.fetchData);
             this.oFilterBar.registerApplyData(this.applyData);
             this.oFilterBar.registerGetFiltersWithValues(this.getFiltersWithValues);
-
+            
             let oPersInfo = new PersonalizableInfo({
                 type: "filterBar",
                 keyName: "persistencyKey",
@@ -34,12 +35,14 @@ sap.ui.define([
             });
             this.oSmartVariantManagement.addPersonalizableControl(oPersInfo);
             this.oSmartVariantManagement.initialise(function () {}, this.oFilterBar);
-
+            
             this.getView().addStyleClass("sapUiSizeCompact");
-
+            
             let sUrl = "https://services.odata.org/Northwind/Northwind.svc/";
             let oModelOData = new ODataModel(sUrl);
-
+            
+            this.oTable.setBusy(true);
+            this.oTable.setBusyIndicatorDelay(0);
 
             // .read("/Products") -> SELECT * FROM PRODUCTS
             oModelOData.read("/Products", {
@@ -90,6 +93,8 @@ sap.ui.define([
 
                     this.getOwnerComponent().setModel(oModelJson, "datos");
                     this.oModel = oModelJson;
+
+                    this.oTable.setBusy(false);
                 }.bind(this), // js y sus alcances jeje
                 error: function(oError) {
                     console.error("Hola, hubo error ->", oError);
