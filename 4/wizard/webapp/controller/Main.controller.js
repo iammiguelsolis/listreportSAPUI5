@@ -37,7 +37,7 @@ sap.ui.define([
 
         // PASO 1
         setProductTypeFromSegmented: function (evt) {
-            var productType = evt.getParameters().item.getText();
+            let productType = evt.getParameters().item.getText();
             this.model.setProperty("/productType", productType);
             this._wizard.validateStep(this.byId("ProductTypeStep"));
         },
@@ -46,8 +46,8 @@ sap.ui.define([
         additionalInfoValidation: function () {
             this.limpiarVariables(); 
 
-            var name = this.byId("ProductName").getValue();
-            var weight = parseInt(this.byId("ProductWeight").getValue());
+            let name = this.byId("ProductName").getValue();
+            let weight = parseInt(this.byId("ProductWeight").getValue());
             
             if (isNaN(weight)) {
                 this.model.setProperty("/productWeightState", "Error");
@@ -86,11 +86,10 @@ sap.ui.define([
 
         // NAVEGACIÓN A REVIEW
         wizardCompletedHandler: function () {
-            var oReviewPage = this.byId("wizardReviewPage");
+            let oReviewPage = this.byId("wizardReviewPage");
             this._oNavContainer.to(oReviewPage);
         },
 
-        // --- NUEVAS FUNCIONES PARA LOS BOTONES FINALES ---
         
         handleWizardCancel: function () {
             MessageBox.warning("¿Estás seguro de cancelar? Se perderán los datos.", {
@@ -109,8 +108,23 @@ sap.ui.define([
         },
 
         _handleNavigationToStep: function (iStepNumber) {
+            let fnAfterNavigate = function () {
+                this._wizard.goToStep(this._wizard.getSteps()[iStepNumber]);
+                this._oNavContainer.detachAfterNavigate(fnAfterNavigate);
+            }.bind(this);
+
+            this._oNavContainer.attachAfterNavigate(fnAfterNavigate);
+            
             this._oNavContainer.backToPage(this._oWizardContentPage.getId());
-            this._wizard.goToStep(this._wizard.getSteps()[iStepNumber]);
-        }
+        },
+
+        editStepOne: function () {
+            this._handleNavigationToStep(0);
+        },
+
+        editStepTwo: function () {
+            this._handleNavigationToStep(1);
+        },
+
     });
 });

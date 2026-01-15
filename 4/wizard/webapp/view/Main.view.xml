@@ -102,19 +102,20 @@
                         <form:content>
                             <Label text="Tipo"/>
                             <Text text="{/productType}"/>
+                            
+                            <Link text="Editar" press="editStepOne" />
                             <Label text="Nombre"/>
                             <Text text="{/productName}"/>
-                            <Label text="Peso"/>
-                            <Text text="{/productWeight}"/>
-                            <Label text="Precio Final"/>
-                            <Text text="{/productPrice}"/>
-                        </form:content>
+                            </form:content>
                     </form:SimpleForm>
 
                     <form:SimpleForm title="2. Detalles Opcionales" editable="false" layout="ResponsiveGridLayout">
                         <form:content>
                             <Label text="Fecha"/>
                             <Text text="{/manufacturingDate}"/>
+
+                            <Link text="Editar" press='editStepTwo'></Link>
+
                             <Label text="Disponibilidad"/>
                             <Text text="{/availabilityType}"/>
                             <Label text="Talla"/>
