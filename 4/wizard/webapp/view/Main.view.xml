@@ -12,8 +12,9 @@
             <Page id="wizardContentPage" showHeader="false">
                 <content>
                     <Wizard id="CreateProductWizard" 
-                            class="sapUiResponsivePadding--header sapUiResponsivePadding--content"
-                            complete="wizardCompletedHandler">
+                            complete="wizardCompletedHandler"
+                            navigationChange="onWizardNavigationChange"
+                            renderMode="Page">
 
                         <WizardStep id="ProductTypeStep"
                                     title="Product Type"
@@ -75,7 +76,7 @@
                         </WizardStep>
 
                         <WizardStep id="PricingStep" activate="pricingActivate" complete="limpiarVariables" validated="true" title="Pricing">
-                            <MessageStrip class="sapUiSmallMarginBottom" text="Define precios." showIcon="true"/>
+                            <MessageStrip  text="Define precios." showIcon="true"/>
                             <form:SimpleForm editable="true" layout="ResponsiveGridLayout">
                                 <Label text="Price"/>
                                 <Input value="{/productPrice}" type="Number"/>

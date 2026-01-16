@@ -12,6 +12,10 @@ sap.ui.define([
             this._oNavContainer = this.byId("wizardNavContainer");
             this._oWizardContentPage = this.byId("wizardContentPage");
             this._wizard = this.byId("CreateProductWizard"); 
+
+            this._wizard.addStyleClass("sapUiResponsivePadding--header");
+            this._wizard.addStyleClass("sapUiResponsivePadding--content");
+
             this._iniciarModelo();
         },
 
@@ -33,6 +37,49 @@ sap.ui.define([
                 discountGroup: "n/a"
             });
             this.getView().setModel(this.model);
+        },
+
+        onWizardNavigationChange: function (oEvent) {
+            const oCurrentStep = oEvent.getParameter("step");
+            const aSteps = this._wizard.getSteps();
+            const iCurrentIndex = aSteps.indexOf(oCurrentStep);
+
+            console.log("Volviendo al step:", iCurrentIndex + 1);
+
+            this._handleBackToStep(iCurrentIndex);
+        },
+
+        _handleBackToStep: function (iStepIndex) {
+            const aSteps = this._wizard.getSteps();
+            const oCurrentStep = aSteps[iStepIndex];
+
+            console.log("Invalidando pasos después del step:", iStepIndex + 1);
+
+            this._wizard.discardProgress(oCurrentStep);
+
+            for (let i = iStepIndex + 1; i < aSteps.length; i++) {
+                this._wizard.invalidateStep(aSteps[i]);
+            }
+
+            this._resetFutureStepsData(iStepIndex);
+        },
+
+        _resetFutureStepsData: function (iStepIndex) {
+            switch (iStepIndex) {
+                case 0: // vuelve al paso 1
+                    this.model.setProperty("/productName", "");
+                    this.model.setProperty("/productWeight", "");
+                case 1: // vuelve al paso 2
+                    this.model.setProperty("/manufacturingDate", "n/a");
+                    this.model.setProperty("/size", "n/a");
+                case 2: // vuelve al paso 3
+                    this.model.setProperty("/productPrice", "n/a");
+                    this.model.setProperty("/discountGroup", "n/a");
+                    this.model.setProperty("/productVAT", false);
+                    break;
+            }
+
+            this.model.setProperty("/navApiEnabled", false);
         },
 
         // PASO 1
@@ -71,7 +118,6 @@ sap.ui.define([
         // PASO 3
         optionalStepActivation: function () {
             MessageToast.show('Paso opcional. Sin validaciones estrictas.');
-            // CORRECCIÓN: Usar 'this.'
             this.limpiarVariables();
         },
 
@@ -90,7 +136,6 @@ sap.ui.define([
             this._oNavContainer.to(oReviewPage);
         },
 
-        
         handleWizardCancel: function () {
             MessageBox.warning("¿Estás seguro de cancelar? Se perderán los datos.", {
                 actions: [MessageBox.Action.YES, MessageBox.Action.NO],
@@ -125,6 +170,5 @@ sap.ui.define([
         editStepTwo: function () {
             this._handleNavigationToStep(1);
         },
-
     });
 });
