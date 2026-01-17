@@ -1,0 +1,66 @@
+<mvc:View controllerName="uppersap.com.repasando.controller.Detail"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:f="sap.ui.layout.form" 
+    xmlns:l="sap.ui.layout">
+
+    <Page id="detailPage" 
+          title="Detalle del Producto" 
+          showNavButton="true" 
+          navButtonPress=".onNavBack">
+
+        <ObjectHeader
+            intro="{ProductID}"
+            title="{Name}"
+            icon="sap-icon://product"
+            number="{Price}"
+            numberUnit="{CurrencyCode}"
+            responsive="true"
+            fullScreenOptimized="true"
+            backgroundDesign="Translucent">
+            
+            <attributes>
+                <ObjectAttribute title="Categoría" text="{Category}" />
+                <ObjectAttribute title="Proveedor" text="{SupplierName}" />
+            </attributes>
+
+            <statuses>
+                <ObjectStatus 
+                    text="{StatusText}" 
+                    state="{= ${Status} === 'A' ? 'Success' : ${Status} === 'B' ? 'Warning' : 'Error' }"
+                    icon="{= ${Status} === 'A' ? 'sap-icon://sys-enter-2' : ${Status} === 'B' ? 'sap-icon://alert' : 'sap-icon://error' }" />
+            </statuses>
+        </ObjectHeader>
+
+        <content>
+            <f:SimpleForm 
+                id="SimpleFormDisplay"
+                editable="false"
+                layout="ResponsiveGridLayout"
+                title="Información Técnica"
+                labelSpanXL="4" labelSpanL="4" labelSpanM="4" labelSpanS="12"
+                adjustLabelSpan="false"
+                emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0"
+                columnsXL="2" columnsL="2" columnsM="1"
+                singleContainerFullSize="false">
+                
+                <f:content>
+                    <Label text="Descripción" />
+                    <Text text="{Description}" />
+
+                    <Label text="Dimensiones (L x A x A)" />
+                    <Text text="{Width} x {Depth} x {Height} {DimUnit}" />
+
+                    <Label text="Peso Neto" />
+                    <Text text="{WeightMeasure} {WeightUnit}" />
+
+                    <Label text="Fecha de Ingreso" />
+                    <Text text="{path: 'DateOfSale', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium' } }" />
+
+                    <Label text="Valoración Clientes" />
+                    <RatingIndicator value="{Rating}" maxValue="5" editable="false" />
+                </f:content>
+            </f:SimpleForm>
+        </content>
+    </Page>
+</mvc:View>

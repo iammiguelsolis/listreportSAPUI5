@@ -2,14 +2,31 @@
     xmlns:mvc="sap.ui.core.mvc"
     xmlns="sap.m">
     <Page id="page" title="{i18n>title}">
-        <Button id="miBotonSupremo" text="Púlsame" press="alPresionar" />
+        <Table items="{/productos}" width="auto">
+            
+            <columns>
+                <Column><Text text="Producto" /></Column>
+                <Column><Text text="Precio" /></Column>
+                <Column><Text text="Estado" /></Column>
+            </columns>
 
-        <HBox id='box'>
-            <Input id='inputUsuario' liveChange="onEscribiendo" value="{/usuario/nombre}" placeholder="Escribe algo..."/>
-
-            <Text text="{/usuario/nombre}" />
-
-            <Button id = 'buttonUsuario' text='Validar' press='onVerificarModelo'/>
-        </HBox>
+            <items>
+                <ColumnListItem type="Navigation" press=".onPress">
+                    <cells>
+                        <Text text="{Name}" />
+                        
+                        <ObjectNumber 
+                            number="{Price}" 
+                            unit="{CurrencyCode}"
+                            state="None" />
+                        
+                        <ObjectStatus 
+                            text="{StatusText}" 
+                            state="{= ${Status} === 'A' ? 'Success' : ${Status} === 'B' ? 'Warning' : 'Error' }"
+                            icon="{= ${Status} === 'A' ? 'sap-icon://sys-enter-2' : ${Status} === 'B' ? 'sap-icon://alert' : 'sap-icon://error' }" />
+                    </cells>
+                </ColumnListItem>
+            </items>
+        </Table>
     </Page>
 </mvc:View>
